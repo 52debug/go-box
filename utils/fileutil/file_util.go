@@ -23,3 +23,8 @@ func IsDir(path string) bool {
 	info, err := os.Stat(path)
 	return err == nil && info.IsDir()
 }
+
+// CreateDir 递归创建目录
+func CreateDir(path string) error {
+	return os.MkdirAll(path, os.ModePerm)
+}
