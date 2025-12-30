@@ -21,11 +21,11 @@ func DisableConsoleQuickEdit() error {
 		return nil
 	}
 
+	// 下面都是 Windows 专用的代码
 	const (
-		// StdInputHandle syscall.STD_INPUT_HANDLE
-		StdInputHandle   = -10
+		StdInputHandle   = 0xFFFFFFF6 // -10 的 64 位无符号表示
 		EnableQuickEdit  = 0x0040
-		EnableMouseInput = 0x0010 // 建议一起禁用，避免鼠标选中问题
+		EnableMouseInput = 0x0010
 	)
 
 	handle, _, _ := procGetStdHandle.Call(uintptr(StdInputHandle))
@@ -39,7 +39,6 @@ func DisableConsoleQuickEdit() error {
 		return errors.New("failed to get console mode: " + err.Error())
 	}
 
-	// 同时禁用快速编辑 + 鼠标输入（更彻底）
 	newMode := mode &^ (EnableQuickEdit | EnableMouseInput)
 
 	r, _, err = procSetConsoleMode.Call(handle, uintptr(newMode))
