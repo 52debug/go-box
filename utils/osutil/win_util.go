@@ -16,6 +16,7 @@ var (
 
 // DisableConsoleQuickEdit 禁用 Windows 控制台的快速编辑模式
 // 防止用户选中文字时程序被挂起
+// todo 调用未通过
 func DisableConsoleQuickEdit() error {
 	if runtime.GOOS != "windows" {
 		return nil
