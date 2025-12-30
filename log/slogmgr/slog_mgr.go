@@ -49,8 +49,7 @@ func Setup(config SLogConfig) {
 	}
 
 	handlerOpt := &slog.HandlerOptions{
-		Level:     level,
-		AddSource: true, // 添加调用源文件和行号，在高频日志场景会有性能开销
+		Level: level,
 		ReplaceAttr: func(groups []string, a slog.Attr) slog.Attr {
 			// 修改时间格式
 			if a.Key == slog.TimeKey {
@@ -61,19 +60,6 @@ func Setup(config SLogConfig) {
 			if a.Key == slog.LevelKey {
 				logLevel := a.Value.Any().(slog.Level)
 				a.Value = slog.StringValue(strings.ToLower(logLevel.String()))
-			}
-			// 只保留文件名和包路径
-			if a.Key == slog.SourceKey {
-				src := a.Value.Any().(*slog.Source)
-				// 只保留文件名
-				src.File = filepath.Base(src.File)
-
-				// 只保留函数名部分
-				fnName := src.Function
-				if idx := strings.LastIndex(fnName, "."); idx != -1 {
-					fnName = fnName[idx+1:]
-				}
-				src.Function = fnName
 			}
 			return a
 		},
