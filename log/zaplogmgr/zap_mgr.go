@@ -1,4 +1,4 @@
-package zapmgr
+package zaplogmgr
 
 type ZapLogConfig struct {
 }
