@@ -62,7 +62,7 @@ func Setup(config logmgr.LogConfig) {
 func newFileWriter(config logmgr.LogConfig) io.Writer {
 	// 确保日志目录存在
 	dir := filepath.Dir(config.FilePath)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
 		panic("创建日志目录失败: " + err.Error())
 	}
 
