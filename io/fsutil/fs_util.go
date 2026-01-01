@@ -30,10 +30,16 @@ func FileExists(path string) bool {
 	return err == nil && !info.IsDir()
 }
 
-// DirExists 路径是否存在
+// DirExists 目录是否存在
 func DirExists(path string) bool {
 	info, err := os.Stat(path)
 	return err == nil && info.IsDir()
+}
+
+// PathExists 路径是否存在 文件或目录
+func PathExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil || !os.IsNotExist(err)
 }
 
 // CreateDir 递归创建目录
