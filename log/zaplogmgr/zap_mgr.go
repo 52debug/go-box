@@ -1,6 +1,8 @@
 package zaplogmgr
 
 import (
+	"time"
+
 	"github.com/52debug/go-box/log/logmgr"
 	"github.com/mattn/go-colorable"
 	"go.uber.org/zap"
@@ -27,7 +29,14 @@ func Setup(config logmgr.LogConfig) {
 			MaxAge:     config.MaxAge,
 			Compress:   config.Compress,
 		}
-		fileEncoder := zapcore.NewJSONEncoder(zap.NewProductionEncoderConfig())
+		// 时间格式
+		timeEncoder := func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
+			enc.AppendString(t.Format("2006-01-02 15:04:05.000"))
+		}
+		fileEncoderConfig := zap.NewProductionEncoderConfig()
+		fileEncoderConfig.TimeKey = "time"
+		fileEncoderConfig.EncodeTime = timeEncoder
+		fileEncoder := zapcore.NewJSONEncoder(fileEncoderConfig)
 		fileCore := zapcore.NewCore(fileEncoder, zapcore.AddSync(lumberjackLogger), level)
 		cores = append(cores, fileCore)
 	}
