@@ -45,7 +45,7 @@ func ReadLines(path string) ([]string, error) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-			slog.Info("Error while closing file %s", path)
+			slog.Info("Error while closing file", "path", path)
 		}
 	}(file)
 
