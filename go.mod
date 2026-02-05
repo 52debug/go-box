@@ -3,6 +3,7 @@ module github.com/52debug/go-box
 go 1.25.5
 
 require (
+	github.com/google/uuid v1.6.0
 	github.com/mattn/go-colorable v0.1.14
 	github.com/rs/zerolog v1.34.0
 	go.uber.org/zap v1.27.1
